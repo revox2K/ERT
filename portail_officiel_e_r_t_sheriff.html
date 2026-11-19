@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E.R.T. SHERIFF — Manuel Opérationnel & Tactique</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Chakra Petch -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        tactical: ['Chakra Petch', 'sans-serif'],
+                    },
+                    colors: {
+                        ert: {
+                            dark: 'var(--bg-dark)',
+                            surface: 'var(--bg-surface)',
+                            card: 'var(--bg-card)',
+                            border: 'var(--border-color)',
+                            primary: 'var(--primary-color)',
+                            primaryHover: 'var(--primary-hover)',
+                            accent: 'var(--accent-color)',
+                            highlight: 'var(--highlight-color)',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Thème par défaut : Sheriff Gold & Navy (Bleu Nuit Tactique, Or Sheriff & Cyan) */
+        :root, [data-theme="sheriff"] {
+            --bg-dark: #070b14;
+            --bg-surface: #0d1424;
+            --bg-card: #121c33;
+            --border-color: #1e2f52;
+            --primary-color: #d97706;      /* Or / Ambre Sheriff */
+            --primary-hover: #b45309;
+            --accent-color: #fbbf24;       /* Or clair métallique */
+            --highlight-color: #38bdf8;    /* Cyan tactique */
+            --grid-rgba: rgba(251, 191, 36, 0.06);
+            --glass-bg: rgba(18, 28, 51, 0.85);
+            --glass-border: rgba(251, 191, 36, 0.25);
+            --radar-cone: rgba(251, 191, 36, 0.22);
+            --radar-dot: #d97706;
+            --radar-lead: #38bdf8;
+        }
+
+        /* Thème 2 : Night Ops Crimson & Slate (Noir Carbone, Rouge Alerte & Acier) */
+        [data-theme="crimson"] {
+            --bg-dark: #09090b;
+            --bg-surface: #121216;
+            --bg-card: #18181f;
+            --border-color: #2c2c38;
+            --primary-color: #dc2626;      /* Rouge Tactique */
+            --primary-hover: #b91c1c;
+            --accent-color: #f87171;       /* Rouge clair */
+            --highlight-color: #f59e0b;    /* Ambre */
+            --grid-rgba: rgba(220, 38, 38, 0.06);
+            --glass-bg: rgba(24, 24, 31, 0.88);
+            --glass-border: rgba(248, 113, 113, 0.25);
+            --radar-cone: rgba(220, 38, 38, 0.24);
+            --radar-dot: #dc2626;
+            --radar-lead: #fbbf24;
+        }
+
+        /* Thème 3 : SWAT Urban Cyan (Bleu Ardoise Profond & Cyan Électrique) */
+        [data-theme="swat"] {
+            --bg-dark: #060d13;
+            --bg-surface: #0b1721;
+            --bg-card: #102230;
+            --border-color: #1b384f;
+            --primary-color: #0284c7;      /* Bleu SWAT */
+            --primary-hover: #0369a1;
+            --accent-color: #38bdf8;       /* Cyan lumineux */
+            --highlight-color: #34d399;    /* Émeraude */
+            --grid-rgba: rgba(56, 189, 248, 0.06);
+            --glass-bg: rgba(16, 34, 48, 0.86);
+            --glass-border: rgba(56, 189, 248, 0.28);
+            --radar-cone: rgba(56, 189, 248, 0.22);
+            --radar-dot: #0284c7;
+            --radar-lead: #34d399;
+        }
+
+        /* Thème 4 : Tactical Olive & Amber (Vert Militaire & Or Sable) */
+        [data-theme="olive"] {
+            --bg-dark: #090c0a;
+            --bg-surface: #111713;
+            --bg-card: #161e19;
+            --border-color: #25332a;
+            --primary-color: #588157;
+            --primary-hover: #3a5a40;
+            --accent-color: #a3b18a;
+            --highlight-color: #d4a373;
+            --grid-rgba: rgba(88, 129, 87, 0.07);
+            --glass-bg: rgba(22, 30, 25, 0.85);
+            --glass-border: rgba(163, 177, 138, 0.25);
+            --radar-cone: rgba(88, 129, 87, 0.24);
+            --radar-dot: #588157;
+            --radar-lead: #d4a373;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: #e5e7eb;
+            overflow-x: hidden;
+            transition: background-color 0.35s ease, color 0.35s ease;
+        }
+
+        .tactical-grid {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, var(--grid-rgba) 1px, transparent 1px),
+                linear-gradient(to bottom, var(--grid-rgba) 1px, transparent 1px);
+        }
+
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            transition: background-color 0.35s ease, border-color 0.35s ease;
+        }
+
+        /* Scrollbar personnalisée */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-color);
+        }
+    </style>
+</head>
+<body class="tactical-grid antialiased">
+
+    <!-- Barre de Navigation Tactique -->
+    <nav class="fixed top-0 w-full z-50 glass-panel border-b border-ert-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo & Identité -->
+                <a href="#accueil" class="flex items-center space-x-3 group shrink-0">
+                    <div class="w-11 h-11 rounded-full flex items-center justify-center shadow-lg transition transform group-hover:scale-105">
+                        <svg class="w-full h-full drop-shadow-md" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+                            <use href="#ert-official-patch"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <span class="font-tactical font-bold text-lg tracking-wider text-white block leading-none">E.R.T. SHERIFF</span>
+                        <span class="text-[10px] uppercase tracking-widest text-ert-accent font-semibold">Emergency Response Team</span>
+                    </div>
+                </a>
+
+                <!-- Menu Desktop -->
+                <div class="hidden xl:flex items-center space-x-1">
+                    <a href="#presentation" class="px-2.5 py-2 rounded-lg text-xs font-medium text-gray-300 hover:text-white hover:bg-white/10 transition">01. Présentation</a>
+                    <a href="#organigramme" class="px-2.5 py-2 rounded-lg text-xs font-medium text-gray-300 hover:text-white hover:bg-white/10 transition">02. Organigramme</a>
+                    <a href="#equipement" class="px-2.5 py-2 rounded-lg text-xs font-medium text-gray-300 hover:text-white hover:bg-white/10 transition">03. Équipement</a>
+                    <a href="#formations" class="px-2.5 py-2 rounded-lg text-xs font-medium text-gray-300 hover:text-white hover:bg-white/10 transition">04. Colonnes d'Assaut</a>
+                    <a href="#deploiement" class="px-2.5 py-2 rounded-lg text-xs font-medium text-gray-300 hover:text-white hover:bg-white/10 transition">05. DEFCON & ROE</a>
+                    <a href="#poles" class="px-2.5 py-2 rounded-lg text-xs font-medium text-gray-300 hover:text-white hover:bg-white/10 transition">06. Pôles & Tenues</a>
+                </div>
+
+                <!-- Sélecteur de Thèmes & Badge DEFCON -->
+                <div class="flex items-center space-x-2 sm:space-x-3">
+                    <!-- Palette Switcher -->
+                    <div class="flex items-center bg-ert-dark/90 px-2.5 py-1.5 rounded-full border border-ert-border space-x-1.5" title="Changer les couleurs du site">
+                        <i data-lucide="palette" class="w-3.5 h-3.5 text-gray-400 mr-0.5 hidden sm:inline"></i>
+                        <button data-set-theme="sheriff" class="theme-dot w-4 h-4 rounded-full bg-amber-500 ring-2 ring-white transition transform hover:scale-110" title="Thème Sheriff Gold & Navy"></button>
+                        <button data-set-theme="crimson" class="theme-dot w-4 h-4 rounded-full bg-red-600 opacity-70 hover:opacity-100 transition transform hover:scale-110" title="Thème Night Ops Crimson"></button>
+                        <button data-set-theme="swat" class="theme-dot w-4 h-4 rounded-full bg-sky-500 opacity-70 hover:opacity-100 transition transform hover:scale-110" title="Thème SWAT Urban Cyan"></button>
+                        <button data-set-theme="olive" class="theme-dot w-4 h-4 rounded-full bg-emerald-700 opacity-70 hover:opacity-100 transition transform hover:scale-110" title="Thème Tactical Olive"></button>
+                    </div>
+
+                    <!-- Badge Statut Live -->
+                    <div class="hidden sm:flex items-center space-x-2 bg-ert-dark/90 px-3 py-1.5 rounded-full border border-ert-border">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                        <span id="nav-defcon-badge" class="font-tactical text-xs font-bold text-emerald-400">DEFCON 5</span>
+                    </div>
+
+                    <!-- Bouton Mobile -->
+                    <button id="mobile-menu-btn" class="xl:hidden p-2 rounded-lg text-gray-300 hover:text-white hover:bg-ert-card focus:outline-none">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menu Mobile -->
+        <div id="mobile-menu" class="hidden xl:hidden bg-ert-surface border-b border-ert-border px-4 pt-2 pb-4 space-y-1">
+            <a href="#presentation" class="block px-3 py-2 rounded-lg text-base font-medium text-gray-200 hover:bg-white/10">01. Présentation</a>
+            <a href="#organigramme" class="block px-3 py-2 rounded-lg text-base font-medium text-gray-200 hover:bg-white/10">02. Organigramme</a>
+            <a href="#equipement" class="block px-3 py-2 rounded-lg text-base font-medium text-gray-200 hover:bg-white/10">03. Équipement</a>
+            <a href="#formations" class="block px-3 py-2 rounded-lg text-base font-medium text-gray-200 hover:bg-white/10">04. Colonnes d'Assaut</a>
+            <a href="#deploiement" class="block px-3 py-2 rounded-lg text-base font-medium text-gray-200 hover:bg-white/10">05. DEFCON & ROE</a>
+            <a href="#poles" class="block px-3 py-2 rounded-lg text-base font-medium text-gray-200 hover:bg-white/10">06. Pôles, Troopers & Tenues</a>
+        </div>
+    </nav>
+
+    <!-- Section Hero -->
+    <header id="accueil" class="relative pt-28 pb-20 lg:pt-36 lg:pb-28 overflow-hidden border-b border-ert-border">
+        <div class="absolute inset-0 bg-gradient-to-br from-ert-primary/15 via-ert-dark/80 to-ert-highlight/10 pointer-events-none"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <div class="lg:col-span-7 space-y-6">
+                    <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-ert-card border border-ert-primary/40 text-ert-accent text-xs font-tactical uppercase tracking-widest shadow-sm">
+                        <i data-lucide="shield-alert" class="w-4 h-4 text-ert-primary"></i>
+                        <span>Document Classifié — Unité d'Intervention Spécialisée</span>
+                    </div>
+                    <h1 class="font-tactical text-4xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-tight">
+                        GUIDE OFFICIEL <br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-ert-accent via-ert-primary to-ert-highlight">E.R.T. SHERIFF</span>
+                    </h1>
+                    <p class="text-gray-300 text-lg sm:text-xl max-w-2xl leading-relaxed">
+                        Manuel opérationnel complet de l'<strong>Emergency Response Team</strong>. Retrouvez les protocoles d'intervention à haut risque, la chaîne de commandement, les formations tactiques, l'armement autorisé et les règles d'engagement (ROE).
+                    </p>
+                    <div class="flex flex-wrap gap-4 pt-2">
+                        <a href="#deploiement" class="px-6 py-3.5 rounded-xl bg-ert-primary hover:bg-ert-primaryHover text-white font-tactical font-bold tracking-wider uppercase text-sm shadow-lg transition flex items-center space-x-2">
+                            <i data-lucide="radar" class="w-4 h-4"></i>
+                            <span>Simulateur DEFCON</span>
+                        </a>
+                        <a href="#formations" class="px-6 py-3.5 rounded-xl bg-ert-card hover:bg-ert-border text-gray-200 border border-ert-border font-tactical font-bold tracking-wider uppercase text-sm transition flex items-center space-x-2">
+                            <i data-lucide="crosshair" class="w-4 h-4 text-ert-highlight"></i>
+                            <span>Tactiques d'Assaut</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Emblème Tactique Central -->
+                <div class="lg:col-span-5 flex justify-center">
+                    <div class="relative w-72 h-72 sm:w-88 sm:h-88 rounded-full flex items-center justify-center p-2">
+                        <div class="absolute -inset-2 rounded-full border border-dashed border-ert-accent/40 animate-[spin_60s_linear_infinite]"></div>
+                        <!-- Étoile du Shérif Jaune avec E.R.T en bas -->
+                        <svg id="ert-official-patch" class="w-full h-full drop-shadow-[0_12px_32px_rgba(0,0,0,0.85)]" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="gold-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#fef08a"/>
+                                    <stop offset="25%" stop-color="#facc15"/>
+                                    <stop offset="50%" stop-color="#ca8a04"/>
+                                    <stop offset="75%" stop-color="#eab308"/>
+                                    <stop offset="100%" stop-color="#854d0e"/>
+                                </linearGradient>
+                                <linearGradient id="gold-dark" x1="0%" y1="100%" x2="100%" y2="0%">
+                                    <stop offset="0%" stop-color="#713f12"/>
+                                    <stop offset="50%" stop-color="#a16207"/>
+                                    <stop offset="100%" stop-color="#422006"/>
+                                </linearGradient>
+                                <path id="star-sheriff-arc" d="M 130,200 A 70,70 0 0,1 270,200"/>
+                                <path id="ert-bottom-arc" d="M 120,240 A 85,85 0 0,0 280,240"/>
+                            </defs>
+
+                            <!-- Anneau Extérieur -->
+                            <circle cx="200" cy="200" r="190" fill="#18181b" stroke="#ca8a04" stroke-width="4"/>
+                            <circle cx="200" cy="200" r="176" fill="#09090b" stroke="#eab308" stroke-width="2"/>
+
+                            <!-- GRANDE ÉTOILE DE SHÉRIF JAUNE / OR À 6 POINTES -->
+                            <g transform="translate(200, 200)">
+                                <!-- Ombre portée -->
+                                <polygon points="0,-160 44,-80 140,-82 92,0 140,82 44,80 0,160 -44,80 -140,82 -92,0 -140,-82 -44,-80" fill="#000000" opacity="0.65" transform="translate(6, 8)"/>
+                                <!-- Corps principal étoile 6 branches en OR -->
+                                <polygon points="0,-160 44,-80 140,-82 92,0 140,82 44,80 0,160 -44,80 -140,82 -92,0 -140,-82 -44,-80" fill="url(#gold-grad)" stroke="#422006" stroke-width="4" stroke-linejoin="round"/>
+                                
+                                <!-- Gravures et facettes intérieures dorées -->
+                                <polygon points="0,-138 38,-68 120,-70 78,0 120,70 38,68 0,138 -38,68 -120,70 -78,0 -120,-70 -38,-68" fill="none" stroke="#713f12" stroke-width="2.5"/>
+                                <polygon points="0,-116 30,-54 98,-56 62,0 98,56 30,54 0,116 -30,54 -98,56 -62,0 -98,-56 -30,-54" fill="url(#gold-dark)" stroke="#eab308" stroke-width="2"/>
+
+                                <!-- Sphères rondes aux 6 extrémités -->
+                                <circle cx="0" cy="-163" r="8.5" fill="url(#gold-grad)" stroke="#422006" stroke-width="2.5"/>
+                                <circle cx="143" cy="-84" r="8.5" fill="url(#gold-grad)" stroke="#422006" stroke-width="2.5"/>
+                                <circle cx="143" cy="84" r="8.5" fill="url(#gold-grad)" stroke="#422006" stroke-width="2.5"/>
+                                <circle cx="0" cy="163" r="8.5" fill="url(#gold-grad)" stroke="#422006" stroke-width="2.5"/>
+                                <circle cx="-143" cy="84" r="8.5" fill="url(#gold-grad)" stroke="#422006" stroke-width="2.5"/>
+                                <circle cx="-143" cy="-84" r="8.5" fill="url(#gold-grad)" stroke="#422006" stroke-width="2.5"/>
+
+                                <!-- Médaillon Central Gravé -->
+                                <circle cx="0" cy="0" r="76" fill="url(#gold-grad)" stroke="#422006" stroke-width="3"/>
+                                <circle cx="0" cy="0" r="64" fill="#09090b" stroke="#eab308" stroke-width="2"/>
+                                <circle cx="0" cy="0" r="54" fill="#18181b" stroke="#713f12" stroke-width="1.5"/>
+                            </g>
+
+                            <!-- Texte SHERIFF en haut -->
+                            <text fill="#ffffff" font-family="Chakra Petch, sans-serif" font-weight="700" font-size="18" letter-spacing="4.5">
+                                <textPath href="#star-sheriff-arc" startOffset="50%" text-anchor="middle">SHERIFF</textPath>
+                            </text>
+
+                            <!-- Texte E.R.T en bas de l'écusson -->
+                            <text fill="#facc15" font-family="Chakra Petch, sans-serif" font-weight="700" font-size="16" letter-spacing="3">
+                                <textPath href="#ert-bottom-arc" startOffset="50%" text-anchor="middle">E.R.T</textPath>
+                            </text>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-28">
+
+        <!-- SECTION 01 : PRÉSENTATION -->
+        <section id="presentation" class="scroll-mt-24">
+            <div class="flex items-center space-x-3 mb-8">
+                <span class="font-tactical text-ert-primary font-bold text-xl">01 //</span>
+                <h2 class="font-tactical text-3xl font-bold text-white uppercase tracking-wide">Présentation de l'Unité</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="glass-panel rounded-2xl p-6 sm:p-8 hover:border-ert-primary transition">
+                    <div class="w-12 h-12 rounded-xl bg-ert-primary/20 border border-ert-primary/40 flex items-center justify-center text-ert-accent mb-5">
+                        <i data-lucide="shield" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-tactical text-xl font-bold text-white mb-3">Emergency Response Team</h3>
+                    <p class="text-gray-300 leading-relaxed">
+                        L'E.R.T. est une unité d'élite qui vise à intervenir sur les opérations et interventions à haut risque. Composée d'agents ultra entraînés, le but est de permettre un déploiement rapide et efficace en toute situation.
+                    </p>
+                </div>
+
+                <div class="glass-panel rounded-2xl p-6 sm:p-8 hover:border-ert-primary transition">
+                    <div class="w-12 h-12 rounded-xl bg-ert-primary/20 border border-ert-primary/40 flex items-center justify-center text-ert-accent mb-5">
+                        <i data-lucide="award" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-tactical text-xl font-bold text-white mb-3">Unité d'Élite</h3>
+                    <p class="text-gray-300 leading-relaxed">
+                        Par élimination, cette unité ne forme que l'élite de nos agents, ce qui par définition n'est pas donné à chacun. Toute la sélection se joue donc sur la <strong>rigueur</strong>, les <strong>capacités physiques</strong>, l'<strong>adaptation</strong> et la <strong>cohésion</strong> de chaque agent.
+                    </p>
+                </div>
+
+                <div class="glass-panel rounded-2xl p-6 sm:p-8 hover:border-ert-primary transition">
+                    <div class="w-12 h-12 rounded-xl bg-ert-primary/20 border border-ert-primary/40 flex items-center justify-center text-ert-accent mb-5">
+                        <i data-lucide="crosshair" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-tactical text-xl font-bold text-white mb-3">Matériel Dernier Cri</h3>
+                    <p class="text-gray-300 leading-relaxed">
+                        Équipés d'un armement ultramoderne, nos agents <strong>David</strong> ne se déploient que sur des opérations risquées. La formation poussée des agents justifie leur possibilité de pouvoir utiliser jusqu'à la <strong>létale A3</strong> dans certaines situations critiques.
+                    </p>
+                </div>
+
+                <div class="glass-panel rounded-2xl p-6 sm:p-8 hover:border-ert-primary transition">
+                    <div class="w-12 h-12 rounded-xl bg-ert-primary/20 border border-ert-primary/40 flex items-center justify-center text-ert-accent mb-5">
+                        <i data-lucide="truck" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-tactical text-xl font-bold text-white mb-3">Véhicules Tactiques</h3>
+                    <p class="text-gray-300 leading-relaxed">
+                        L'ensemble des véhicules utilisés en intervention sont <strong>banalisés (non siglés)</strong>. Ils ont vocation à être tout-terrain, puissants et dotés d'une grande capacité de stockage pour le transport de matériel lourd.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 02 : ORGANIGRAMME -->
+        <section id="organigramme" class="scroll-mt-24">
+            <div class="flex items-center space-x-3 mb-8">
+                <span class="font-tactical text-ert-primary font-bold text-xl">02 //</span>
+                <h2 class="font-tactical text-3xl font-bold text-white uppercase tracking-wide">Chaîne de Commandement</h2>
+            </div>
+
+            <div class="glass-panel rounded-2xl p-6 sm:p-10">
+                <!-- Niveau 1 : Directeur -->
+                <div class="flex flex-col items-center">
+                    <div class="w-full max-w-sm bg-gradient-to-r from-ert-primary/30 via-ert-card to-ert-primary/30 border-2 border-ert-accent rounded-2xl p-5 text-center shadow-lg">
+                        <span class="inline-block px-3 py-0.5 rounded-full bg-ert-primary/20 text-ert-accent font-tactical text-xs font-bold uppercase tracking-wider mb-2">Direction E.R.T.</span>
+                        <h3 class="font-tactical text-2xl font-bold text-white">DAVID 60 — ROSS</h3>
+                        <p class="text-xs text-gray-400 mt-1">Commandement Suprême de l'Unité</p>
+                    </div>
+                </div>
+
+                <!-- Connecteur vertical -->
+                <div class="w-0.5 h-8 bg-ert-primary mx-auto"></div>
+                <div class="hidden md:block w-2/3 h-0.5 bg-ert-primary mx-auto"></div>
+
+                <!-- Niveau 2 : Leads & Captains (3 colonnes) -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-4 md:mt-0">
+                    <!-- Branche 70 -->
+                    <div class="flex flex-col items-center relative md:pt-6">
+                        <div class="hidden md:block w-0.5 h-6 bg-ert-primary absolute top-0"></div>
+                        <div class="w-full bg-ert-surface border border-ert-primary rounded-xl p-4 text-center shadow">
+                            <span class="text-xs font-tactical uppercase tracking-wider text-ert-accent font-bold">Lead E.R.T.</span>
+                            <h4 class="font-tactical text-lg font-bold text-white mt-1">David 70 — Anderson</h4>
+                        </div>
+                        <div class="w-0.5 h-6 bg-ert-border"></div>
+                        <div class="w-full bg-ert-dark/80 border border-ert-border rounded-xl p-4 text-center">
+                            <span class="text-xs font-tactical uppercase tracking-wider text-gray-400 font-semibold">Captain</span>
+                            <h5 class="font-tactical text-base font-bold text-gray-200 mt-1">David 71 — <span class="italic text-gray-500">Attente (Att)</span></h5>
+                        </div>
+                    </div>
+
+                    <!-- Branche 80 -->
+                    <div class="flex flex-col items-center relative md:pt-6">
+                        <div class="hidden md:block w-0.5 h-6 bg-ert-primary absolute top-0"></div>
+                        <div class="w-full bg-ert-surface border border-ert-primary rounded-xl p-4 text-center shadow">
+                            <span class="text-xs font-tactical uppercase tracking-wider text-ert-accent font-bold">Lead E.R.T.</span>
+                            <h4 class="font-tactical text-lg font-bold text-white mt-1">David 80 — <span class="italic text-gray-400">Attente (Att)</span></h4>
+                        </div>
+                        <div class="w-0.5 h-6 bg-ert-border"></div>
+                        <div class="w-full bg-ert-dark/80 border border-ert-highlight/60 rounded-xl p-4 text-center shadow">
+                            <span class="text-xs font-tactical uppercase tracking-wider text-ert-highlight font-semibold">Captain</span>
+                            <h5 class="font-tactical text-base font-bold text-white mt-1">David 81 — BURLINGTON</h5>
+                        </div>
+                    </div>
+
+                    <!-- Branche 90 -->
+                    <div class="flex flex-col items-center relative md:pt-6">
+                        <div class="hidden md:block w-0.5 h-6 bg-ert-primary absolute top-0"></div>
+                        <div class="w-full bg-ert-surface border border-ert-primary rounded-xl p-4 text-center shadow">
+                            <span class="text-xs font-tactical uppercase tracking-wider text-ert-accent font-bold">Lead E.R.T.</span>
+                            <h4 class="font-tactical text-lg font-bold text-white mt-1">David 90 — Santos</h4>
+                        </div>
+                        <div class="w-0.5 h-6 bg-ert-border"></div>
+                        <div class="w-full bg-ert-dark/80 border border-ert-border rounded-xl p-4 text-center">
+                            <span class="text-xs font-tactical uppercase tracking-wider text-gray-400 font-semibold">Captain</span>
+                            <h5 class="font-tactical text-base font-bold text-gray-200 mt-1">David 91 — <span class="italic text-gray-500">Attente (Att)</span></h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 03 : ÉQUIPEMENT & ARMEMENT -->
+        <section id="equipement" class="scroll-mt-24">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+                <div class="flex items-center space-x-3">
+                    <span class="font-tactical text-ert-primary font-bold text-xl">03 //</span>
+                    <h2 class="font-tactical text-3xl font-bold text-white uppercase tracking-wide">Dotation & Équipement</h2>
+                </div>
+                <!-- Filtres Catégories -->
+                <div class="flex flex-wrap gap-2" id="gear-filters">
+                    <button data-filter="all" class="gear-btn active px-3.5 py-1.5 rounded-lg text-xs font-tactical font-bold uppercase bg-ert-primary text-white transition">Tout</button>
+                    <button data-filter="non-letal" class="gear-btn px-3.5 py-1.5 rounded-lg text-xs font-tactical font-bold uppercase bg-ert-card text-gray-300 border border-ert-border hover:border-ert-primary transition">Non-Létal / Protection</button>
+                    <button data-filter="a1" class="gear-btn px-3.5 py-1.5 rounded-lg text-xs font-tactical font-bold uppercase bg-ert-card text-gray-300 border border-ert-border hover:border-ert-primary transition">Catégorie A1</button>
+                    <button data-filter="a2" class="gear-btn px-3.5 py-1.5 rounded-lg text-xs font-tactical font-bold uppercase bg-ert-card text-gray-300 border border-ert-border hover:border-ert-primary transition">Catégorie A2</button>
+                    <button data-filter="a3" class="gear-btn px-3.5 py-1.5 rounded-lg text-xs font-tactical font-bold uppercase bg-ert-card text-gray-300 border border-ert-border hover:border-ert-primary transition">Catégorie A3</button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="gear-grid">
+                <!-- Matraque -->
+                <div class="gear-card glass-panel rounded-2xl p-6 flex flex-col justify-between" data-category="non-letal">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="px-2.5 py-1 rounded-md bg-sky-500/20 text-sky-300 font-tactical text-xs font-bold">DOTATION BASE</span>
+                            <i data-lucide="shield-check" class="w-5 h-5 text-sky-400"></i>
+                        </div>
+                        <h3 class="font-tactical text-xl font-bold text-white mb-2">Matraque Télescopique</h3>
+                        <p class="text-sm text-gray-400">Équipement de contrôle rapproché et de maintien de l'ordre sans létalité.</p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-ert-border text-xs text-gray-400 font-mono">PORT PERMANENT OBLIGATOIRE</div>
+                </div>
+
+                <!-- Tazer -->
+                <div class="gear-card glass-panel rounded-2xl p-6 flex flex-col justify-between" data-category="non-letal">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="px-2.5 py-1 rounded-md bg-yellow-500/20 text-yellow-300 font-tactical text-xs font-bold">NEUTRALISATION</span>
+                            <i data-lucide="zap" class="w-5 h-5 text-yellow-400"></i>
+                        </div>
+                        <h3 class="font-tactical text-xl font-bold text-white mb-2">Tazer X26</h3>
+                        <p class="text-sm text-gray-400">Pistolet à impulsion électrique permettant de neutraliser un individu hostile à courte distance.</p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-ert-border text-xs text-gray-400 font-mono">USAGE INTERMÉDIAIRE</div>
+                </div>
+
+                <!-- Gilet Pare-Balle -->
+                <div class="gear-card glass-panel rounded-2xl p-6 flex flex-col justify-between" data-category="non-letal">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="px-2.5 py-1 rounded-md bg-emerald-500/20 text-emerald-300 font-tactical text-xs font-bold">PROTECTION LOURDE</span>
+                            <i data-lucide="shirt" class="w-5 h-5 text-emerald-400"></i>
+                        </div>
+                        <h3 class="font-tactical text-xl font-bold text-white mb-2">Gilet Pare-Balle Tactique</h3>
+                        <p class="text-sm text-gray-400">Protection balistique haute résistance adaptée aux engagements armés et interventions critiques.</p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-ert-border text-xs text-gray-400 font-mono">KEVLAR / PLAQUES BALISTIQUES</div>
+                </div>
+
+                <!-- Pistolet de Combat -->
+                <div class="gear-card glass-panel rounded-2xl p-6 flex flex-col justify-between" data-category="a1">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="px-2.5 py-1 rounded-md bg-ert-primary/25 text-ert-accent font-tactical text-xs font-bold">ARMEMENT A1</span>
+                            <i data-lucide="target" class="w-5 h-5 text-ert-accent"></i>
+                        </div>
+                        <h3 class="font-tactical text-xl font-bold text-white mb-2">Pistolet de Combat</h3>
+                        <p class="text-sm text-gray-400">Arme de poing réglementaire de dotation standard. Arme principale en DEFCON 4 hors dissuasion.</p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-ert-border text-xs text-ert-accent font-mono">DOTATION STANDARD TOUS AGENTS</div>
+                </div>
+
+                <!-- SMG / Mitraillette -->
+                <div class="gear-card glass-panel rounded-2xl p-6 flex flex-col justify-between" data-category="a2">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="px-2.5 py-1 rounded-md bg-amber-500/20 text-amber-300 font-tactical text-xs font-bold">ARMEMENT A2</span>
+                            <i data-lucide="crosshair" class="w-5 h-5 text-amber-400"></i>
+                        </div>
+                        <h3 class="font-tactical text-xl font-bold text-white mb-2">SMG / Mitraillette</h3>
+                        <p class="text-sm text-gray-400">Pistolet-mitrailleur compact idéal pour le combat rapproché (CQB) et la dissuasion en DEFCON 4/3.</p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-ert-border text-xs text-amber-300 font-mono">SOUMIS AUX RÈGLES DEFCON & ROE</div>
+                </div>
+
+                <!-- M4 -->
+                <div class="gear-card glass-panel rounded-2xl p-6 flex flex-col justify-between border-red-500/40" data-category="a3">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="px-2.5 py-1 rounded-md bg-red-500/20 text-red-400 font-tactical text-xs font-bold">ARMEMENT LÉTAL A3</span>
+                            <i data-lucide="flame" class="w-5 h-5 text-red-400"></i>
+                        </div>
+                        <h3 class="font-tactical text-xl font-bold text-white mb-2">Carabine M4</h3>
+                        <p class="text-sm text-gray-400">Fusil d'assaut haute puissance réservé aux situations critiques et menaces lourdement armées.</p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-ert-border text-xs text-red-400 font-mono font-bold">⚠️ UNIQUEMENT SI FORMATION A3 VALIDÉE</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 04 : COLONNES D'ASSAUT (SIMULATEUR TACTIQUE INTERACTIF) -->
+        <section id="formations" class="scroll-mt-24">
+            <div class="flex items-center space-x-3 mb-8">
+                <span class="font-tactical text-ert-primary font-bold text-xl">04 //</span>
+                <h2 class="font-tactical text-3xl font-bold text-white uppercase tracking-wide">Colonnes d'Assaut & Tactique</h2>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <!-- Sélecteur de formation -->
+                <div class="lg:col-span-7 space-y-4">
+                    <p class="text-gray-300 text-sm mb-4">Sélectionnez une formation pour visualiser le placement des agents David et leurs secteurs de tir sur le radar tactique :</p>
+                    
+                    <div class="space-y-3" id="formation-list">
+                        <!-- Colonne Simple -->
+                        <button data-formation="simple" class="formation-btn active w-full text-left glass-panel rounded-xl p-4 border-l-4 border-l-ert-primary bg-ert-primary/15 transition">
+                            <div class="flex justify-between items-center">
+                                <span class="font-tactical font-bold text-lg text-white">1. Colonne Simple</span>
+                                <span class="text-xs font-mono px-2 py-0.5 rounded bg-ert-dark text-ert-accent">DISCRÉTION & VITESSE</span>
+                            </div>
+                            <p class="text-sm text-gray-300 mt-1">Mode de progression normal permettant de progresser rapidement, en utilisant un cheminement.</p>
+                        </button>
+
+                        <!-- Colonne Double -->
+                        <button data-formation="double" class="formation-btn w-full text-left glass-panel rounded-xl p-4 border-l-4 border-l-transparent hover:border-l-ert-primary transition">
+                            <div class="flex justify-between items-center">
+                                <span class="font-tactical font-bold text-lg text-white">2. Colonne Double</span>
+                                <span class="text-xs font-mono px-2 py-0.5 rounded bg-ert-dark text-amber-300">PUISSANCE DE FEU</span>
+                            </div>
+                            <p class="text-sm text-gray-300 mt-1">Mode de progression normal favorisant une puissance de feu supérieure au détriment de la discrétion.</p>
+                        </button>
+
+                        <!-- Ligne -->
+                        <button data-formation="ligne" class="formation-btn w-full text-left glass-panel rounded-xl p-4 border-l-4 border-l-transparent hover:border-l-ert-primary transition">
+                            <div class="flex justify-between items-center">
+                                <span class="font-tactical font-bold text-lg text-white">3. Ligne</span>
+                                <span class="text-xs font-mono px-2 py-0.5 rounded bg-ert-dark text-sky-300">FRANCHISSEMENT</span>
+                            </div>
+                            <p class="text-sm text-gray-300 mt-1">Mode de progression à adopter à l'approche de l'ENI, avant d'effectuer un bond sur ordre du chef d'équipe pour franchir un découvert.</p>
+                        </button>
+
+                        <!-- Triangle Base Avant -->
+                        <button data-formation="triangle_base" class="formation-btn w-full text-left glass-panel rounded-xl p-4 border-l-4 border-l-transparent hover:border-l-ert-primary transition">
+                            <div class="flex justify-between items-center">
+                                <span class="font-tactical font-bold text-lg text-white">4. Triangle Base Avant</span>
+                                <span class="text-xs font-mono px-2 py-0.5 rounded bg-ert-dark text-red-300">ASSAUT FRONTAL</span>
+                            </div>
+                            <p class="text-sm text-gray-300 mt-1">En tête d'un groupe, à l'approche de l'ENI, permet une réaction par le feu importante vers l'avant et latéralement au détriment de la discrétion.</p>
+                        </button>
+
+                        <!-- Triangle Pointe Avant -->
+                        <button data-formation="triangle_pointe" class="formation-btn w-full text-left glass-panel rounded-xl p-4 border-l-4 border-l-transparent hover:border-l-ert-primary transition">
+                            <div class="flex justify-between items-center">
+                                <span class="font-tactical font-bold text-lg text-white">5. Triangle Pointe Avant</span>
+                                <span class="text-xs font-mono px-2 py-0.5 rounded bg-ert-dark text-emerald-300">INFILTRATION / APPROCHE</span>
+                            </div>
+                            <p class="text-sm text-gray-300 mt-1">En tête d'un groupe, à l'approche de l'ENI, permet en ménageant la discrétion d'avoir une réaction par le feu importante vers l'avant et latéralement (au détriment des secteurs d'ouverture de feu et de l'élément de tête).</p>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Visualiseur Radar Tactique + Objectifs -->
+                <div class="lg:col-span-5 flex flex-col justify-between space-y-6">
+                    <div class="glass-panel rounded-2xl p-6 flex flex-col items-center">
+                        <div class="w-full flex justify-between items-center mb-3">
+                            <span class="font-tactical text-xs uppercase tracking-wider text-ert-accent font-bold">Schéma Tactique (Progression ↑)</span>
+                            <span id="radar-label" class="font-mono text-xs text-white bg-ert-primary/30 border border-ert-primary/40 px-2.5 py-0.5 rounded">COLONNE SIMPLE</span>
+                        </div>
+                        <div class="w-full aspect-square max-w-[320px] bg-ert-dark rounded-xl border border-ert-border relative overflow-hidden">
+                            <canvas id="tacticalCanvas" class="w-full h-full block"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Objectifs & Points importants -->
+                    <div class="glass-panel rounded-2xl p-6 space-y-4">
+                        <h4 class="font-tactical text-base font-bold text-white uppercase flex items-center gap-2">
+                            <i data-lucide="compass" class="w-4 h-4 text-ert-accent"></i>
+                            <span>Vitesse • Discrétion • Réactivité</span>
+                        </h4>
+                        <ul class="space-y-2 text-xs sm:text-sm text-gray-300">
+                            <li class="flex items-start gap-2"><span class="text-ert-primary font-bold">▸</span> Rester sur une progression rapide pour éviter l'embuscade.</li>
+                            <li class="flex items-start gap-2"><span class="text-ert-primary font-bold">▸</span> Rester attentif à son environnement pour la sécurité du groupe.</li>
+                            <li class="flex items-start gap-2"><span class="text-ert-primary font-bold">▸</span> Utiliser le dispositif à votre avantage pour garantir une efficacité offensive constante.</li>
+                            <li class="flex items-start gap-2"><span class="text-ert-primary font-bold">▸</span> Faire de la <strong>communication</strong> le maître mot pour garantir un contrôle sans faille des effectifs, de la mission et de la menace.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 05 : DÉPLOIEMENT DEFCON & ROE -->
+        <section id="deploiement" class="scroll-mt-24">
+            <div class="flex items-center space-x-3 mb-8">
+                <span class="font-tactical text-ert-primary font-bold text-xl">05 //</span>
+                <h2 class="font-tactical text-3xl font-bold text-white uppercase tracking-wide">Protocoles DEFCON & Règles d'Engagement</h2>
+            </div>
+
+            <!-- Sélecteur Interactif DEFCON -->
+            <div class="glass-panel rounded-2xl p-6 sm:p-8 mb-8">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-ert-border">
+                    <div>
+                        <h3 class="font-tactical text-xl font-bold text-white">Niveau d'Alerte Actuel</h3>
+                        <p class="text-sm text-gray-400">Cliquez sur un niveau DEFCON pour afficher les consignes de patrouille et d'armement.</p>
+                    </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2" id="defcon-selector">
+                        <button data-defcon="5" class="defcon-btn px-4 py-2.5 rounded-xl font-tactical font-bold text-sm border transition bg-emerald-500/20 border-emerald-500 text-emerald-300">DEFCON 5</button>
+                        <button data-defcon="4" class="defcon-btn px-4 py-2.5 rounded-xl font-tactical font-bold text-sm border border-ert-border bg-ert-dark text-gray-400 hover:text-white transition">DEFCON 4</button>
+                        <button data-defcon="3" class="defcon-btn px-4 py-2.5 rounded-xl font-tactical font-bold text-sm border border-ert-border bg-ert-dark text-gray-400 hover:text-white transition">DEFCON 3</button>
+                        <button data-defcon="2" class="defcon-btn px-4 py-2.5 rounded-xl font-tactical font-bold text-sm border border-ert-border bg-ert-dark text-gray-400 hover:text-white transition">DEFCON 2</button>
+                    </div>
+                </div>
+
+                <!-- Panneau d'affichage dynamique DEFCON -->
+                <div id="defcon-display" class="pt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Rempli par JS -->
+                </div>
+            </div>
+
+            <!-- Règles d'Engagement (ROE) & Proportionnalité -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Utilisation de l'armement -->
+                <div class="glass-panel rounded-2xl p-6 sm:p-8 space-y-5">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-lg bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400">
+                            <i data-lucide="alert-triangle" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="font-tactical text-xl font-bold text-white">Déploiement & Utilisation de l'Armement</h3>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="p-4 rounded-xl bg-ert-dark border border-ert-border">
+                            <span class="font-tactical font-bold text-ert-accent block text-sm uppercase">1. Être équipé</span>
+                            <p class="text-sm text-gray-300 mt-1">Porter une arme ne donne pas automatiquement le droit de l'utiliser.</p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-ert-dark border border-ert-border">
+                            <span class="font-tactical font-bold text-amber-300 block text-sm uppercase">2. Sortir l'arme</span>
+                            <p class="text-sm text-gray-300 mt-1">Peut servir uniquement à <strong>anticiper</strong> ou <strong>dissuader</strong> une menace.</p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-ert-dark border border-ert-border">
+                            <span class="font-tactical font-bold text-red-400 block text-sm uppercase">3. Utiliser l'arme</span>
+                            <p class="text-sm text-gray-300 mt-1">Uniquement si les <strong>ROE (Règles d'Engagement)</strong> l'autorisent formellement.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Règle de Proportionnalité -->
+                <div class="glass-panel rounded-2xl p-6 sm:p-8 space-y-5">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-lg bg-ert-primary/20 border border-ert-primary/40 flex items-center justify-center text-ert-accent">
+                            <i data-lucide="scale" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="font-tactical text-xl font-bold text-white">Règle de Proportionnalité</h3>
+                    </div>
+                    <p class="text-sm text-gray-300">
+                        L'armement doit toujours être adapté à la menace rencontrée, dans le strict respect des ROE et des ordres du commandement.
+                    </p>
+                    <div class="p-4 rounded-xl bg-ert-surface border border-ert-primary/30 space-y-3 text-sm">
+                        <p class="font-tactical font-bold text-ert-accent uppercase text-xs">Exemples Concrets sur le Terrain :</p>
+                        <div class="flex items-start gap-2.5 text-gray-200">
+                            <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5"></i>
+                            <span><strong>Infériorité / Égalité numérique :</strong> Si je suis seul face à 2 individus équipés d'armes de catégorie A, je sors mon <strong>A2 / A3</strong>.</span>
+                        </div>
+                        <div class="flex items-start gap-2.5 text-gray-200">
+                            <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5"></i>
+                            <span><strong>Supériorité numérique :</strong> Si je suis avec 2 collègues (3 agents) face à 2 individus armés en cat. A et que j'avais mon A2 en main pour dissuasion, <strong>je la range et je sors mon A1</strong> pour tirer si besoin.</span>
+                        </div>
+                    </div>
+                    <div class="p-3 rounded-xl bg-red-950/50 border border-red-500/40 text-xs text-red-200 flex items-center gap-2">
+                        <i data-lucide="octagon-alert" class="w-5 h-5 text-red-400 shrink-0"></i>
+                        <span><strong>RAPPEL :</strong> Avoir une arme A2/A3 en main ne donne pas l'autorisation de tir. Chaque agent ERT est responsable de ses actes.</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 06 : PÔLES ERT, TROOPERS & TENUES -->
+        <section id="poles" class="scroll-mt-24">
+            <div class="flex items-center space-x-3 mb-8">
+                <span class="font-tactical text-ert-primary font-bold text-xl">06 //</span>
+                <h2 class="font-tactical text-3xl font-bold text-white uppercase tracking-wide">Pôles Internes, Troopers & Tenues</h2>
+            </div>
+
+            <!-- Pôles ERT -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                <!-- Recruteur -->
+                <div class="glass-panel rounded-2xl p-6 flex flex-col justify-between">
+                    <div>
+                        <span class="text-xs font-tactical uppercase tracking-widest text-ert-accent font-bold">Pôle 01</span>
+                        <h3 class="font-tactical text-xl font-bold text-white mt-1 mb-3">Recruteur</h3>
+                        <p class="text-sm text-gray-300 leading-relaxed">
+                            Le rôle des recruteurs est de vous faire passer les différents tests afin d'évaluer vos compétences et d'observer votre réaction face aux différentes situations auxquelles vous pourriez être confronté.
+                        </p>
+                    </div>
+                    <div class="mt-5 pt-4 border-t border-ert-border">
+                        <span class="text-xs font-tactical uppercase text-gray-400 block mb-2">Conditions pour rejoindre :</span>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-2.5 py-1 rounded bg-ert-dark border border-ert-primary/40 text-xs font-mono text-ert-accent">• David Operator</span>
+                            <span class="px-2.5 py-1 rounded bg-ert-dark border border-ert-primary/40 text-xs font-mono text-ert-accent">• Ticket Direction ERT</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tactical Officer -->
+                <div class="glass-panel rounded-2xl p-6 flex flex-col justify-between">
+                    <div>
+                        <span class="text-xs font-tactical uppercase tracking-widest text-ert-accent font-bold">Pôle 02</span>
+                        <h3 class="font-tactical text-xl font-bold text-white mt-1 mb-3">Tactical Officer</h3>
+                        <p class="text-sm text-gray-300 leading-relaxed">
+                            Tactical Officer est un rôle attribué lors de votre arrivée au sein de l'ERT. Ce rôle implique qu'à tout moment vous pouvez être appelé à concevoir et diriger un <strong>plan d'opération</strong>.
+                        </p>
+                    </div>
+                    <div class="mt-5 pt-4 border-t border-ert-border text-xs font-mono text-ert-highlight">
+                        PLANIFICATION & STRATÉGIE D'ASSAUT
+                    </div>
+                </div>
+
+                <!-- Training Division -->
+                <div class="glass-panel rounded-2xl p-6 flex flex-col justify-between">
+                    <div>
+                        <span class="text-xs font-tactical uppercase tracking-widest text-ert-accent font-bold">Pôle 03</span>
+                        <h3 class="font-tactical text-xl font-bold text-white mt-1 mb-3">Training Division</h3>
+                        <p class="text-sm text-gray-300 leading-relaxed">
+                            Training Division est un rôle attribué lors de votre arrivée au sein de l'ERT. Ce rôle implique qu'à tout moment vous pouvez être sollicité pour organiser et encadrer des <strong>entraînements ERT</strong>.
+                        </p>
+                    </div>
+                    <div class="mt-5 pt-4 border-t border-ert-border text-xs font-mono text-ert-highlight">
+                        INSTRUCTION & MAINTIEN OPÉRATIONNEL
+                    </div>
+                </div>
+            </div>
+
+            <!-- Troopers & Les Tenues -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Unité Troopers -->
+                <div class="glass-panel rounded-2xl p-6 sm:p-8 border-l-4 border-l-ert-accent">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-tactical text-2xl font-bold text-white">Unité Spécialisée : TROOPERS</h3>
+                        <span class="px-3 py-1 rounded-full bg-ert-primary/20 text-ert-accent font-tactical text-xs font-bold">SUR SÉLECTION</span>
+                    </div>
+                    <p class="text-sm text-gray-300 leading-relaxed mb-4">
+                        Les <strong>Troopers</strong> sont une unité spécialisée de l'ERT, composée d'agents expérimentés. Leur rôle principal couvre la <strong>négociation</strong>, la <strong>gestion des convois</strong>, l'<strong>armement</strong> et le <strong>renfort</strong> lors de situations critiques.
+                    </p>
+                    <p class="text-sm text-gray-300 leading-relaxed mb-4">
+                        Ils interviennent toujours en complément de l'ERT, sans jamais la remplacer, et sous l'autorité de la hiérarchie. Leur déploiement est réservé aux situations nécessitant leurs compétences spécifiques.
+                    </p>
+                    <div class="p-3 rounded-xl bg-ert-dark border border-ert-border text-xs text-ert-accent font-mono">
+                        Intégration uniquement sur décision des Directeurs Troopers.
+                    </div>
+                </div>
+
+                <!-- Les Tenues -->
+                <div class="glass-panel rounded-2xl p-6 sm:p-8 border-l-4 border-l-ert-highlight">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-tactical text-2xl font-bold text-white">Les Tenues Réglementaires</h3>
+                        <span class="px-3 py-1 rounded-full bg-ert-highlight/20 text-ert-highlight font-tactical text-xs font-bold">CODE VESTIMENTAIRE</span>
+                    </div>
+                    <p class="text-sm text-gray-300 leading-relaxed mb-4">
+                        Chaque tenue est spécifique et doit être adaptée à la situation rencontrée. Le choix de la tenue dépend du <strong>type d'intervention</strong>, du <strong>niveau de risque</strong> et de la <strong>mission à effectuer</strong>.
+                    </p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                        <div class="p-3 rounded-xl bg-ert-dark border border-ert-border">
+                            <span class="font-tactical font-bold text-white block mb-1">Tenue Intervention Lourde</span>
+                            <span class="text-gray-400">Treillis vert olive / noir, casque balistique JVN, gilet porte-plaques SHERIFF ERT, cagoule tactique.</span>
+                        </div>
+                        <div class="p-3 rounded-xl bg-ert-dark border border-ert-border">
+                            <span class="font-tactical font-bold text-white block mb-1">Tenue Patrouille / Renfort</span>
+                            <span class="text-gray-400">Tenue tactique légère (manches courtes/pantalon cargo sable ou olive), gilet tactique et ceinturon complet.</span>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-400 mt-4 italic">
+                        Il est impératif que chaque agent porte une tenue appropriée afin d'assurer une intervention efficace, professionnelle et cohérente selon les ordres des Leads et de la Direction.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-ert-border bg-ert-surface py-10 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center space-x-3">
+                <svg class="w-10 h-10 shrink-0" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+                    <use href="#ert-official-patch"/>
+                </svg>
+                <span class="font-tactical font-bold text-white tracking-wider">E.R.T. SHERIFF</span>
+                <span class="text-gray-600">|</span>
+                <span class="text-xs text-gray-400">Manuel Opérationnel & Tactique — Document Interne</span>
+            </div>
+            <div class="text-xs font-mono text-ert-accent">
+                RIGUEUR • COHÉSION • RÉACTIVITÉ
+            </div>
+        </div>
+    </footer>
+
+    <!-- Logique Interactive JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialisation des icônes Lucide
+            lucide.createIcons();
+
+            // Gestion du changement de thème de couleurs
+            const themeDots = document.querySelectorAll('.theme-dot');
+            themeDots.forEach(dot => {
+                dot.addEventListener('click', () => {
+                    const selectedTheme = dot.getAttribute('data-set-theme');
+                    document.documentElement.setAttribute('data-theme', selectedTheme);
+
+                    themeDots.forEach(d => {
+                        d.classList.remove('ring-2', 'ring-white', 'opacity-100');
+                        d.classList.add('opacity-70');
+                    });
+                    dot.classList.remove('opacity-70');
+                    dot.classList.add('ring-2', 'ring-white', 'opacity-100');
+
+                    // Redessiner le radar tactique avec les nouvelles couleurs
+                    drawTacticalRadar();
+                });
+            });
+
+            // Menu Mobile Toggle
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+            });
+
+            // Filtrage de l'équipement
+            const gearBtns = document.querySelectorAll('.gear-btn');
+            const gearCards = document.querySelectorAll('.gear-card');
+
+            gearBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    gearBtns.forEach(b => {
+                        b.classList.remove('bg-ert-primary', 'text-white');
+                        b.classList.add('bg-ert-card', 'text-gray-300');
+                    });
+                    btn.classList.remove('bg-ert-card', 'text-gray-300');
+                    btn.classList.add('bg-ert-primary', 'text-white');
+
+                    const filter = btn.getAttribute('data-filter');
+                    gearCards.forEach(card => {
+                        if (filter === 'all' || card.getAttribute('data-category') === filter) {
+                            card.style.display = 'flex';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+
+            // Données DEFCON
+            const defconData = {
+                '5': {
+                    title: 'DEFCON 5 — SITUATION NORMALE',
+                    badgeClass: 'text-emerald-400',
+                    borderClass: 'border-emerald-500/40',
+                    deploiement: 'Pas de déploiement systématique.',
+                    patrouille: 'Sortie uniquement sur opération planifiée, besoin spécifique ou ordre de l\'État-Major (EM).',
+                    armement: 'Équipement standard de service. Port d\'arme lourde non autorisé en patrouille classique.'
+                },
+                '4': {
+                    title: 'DEFCON 4 — VIGILANCE RENFORCÉE',
+                    badgeClass: 'text-sky-400',
+                    borderClass: 'border-sky-500/40',
+                    deploiement: '3 patrouilles PPD minimum requises → L\'ERT devient la 4ème patrouille.',
+                    patrouille: 'Déploiement en formation ADAM ou TANGO.',
+                    armement: '1 arme A2 maximum en main par patrouille (uniquement pour dissuasion), le reste des agents à l\'A1.'
+                },
+                '3': {
+                    title: 'DEFCON 3 — MENACE ÉLEVÉE',
+                    badgeClass: 'text-amber-400',
+                    borderClass: 'border-amber-500/40',
+                    deploiement: '3 patrouilles PPD minimum → L\'ERT devient la 4ème patrouille. À 2 agents : ADAM temporaire, 3ème agent à trouver rapidement.',
+                    patrouille: 'Déploiement prioritaire en TANGO / XRAY ou deux ADAM obligatoirement en convoi.',
+                    armement: '1 arme A3 maximum par patrouille en main (uniquement pour dissuasion), le reste des agents à l\'A2.'
+                },
+                '2': {
+                    title: 'DEFCON 2 — MENACE CRITIQUE',
+                    badgeClass: 'text-red-400',
+                    borderClass: 'border-red-500/40',
+                    deploiement: 'Sortie ERT automatique immédiate.',
+                    patrouille: 'Déploiement obligatoire en TANGO / XRAY avec 2 patrouilles ERT minimum.',
+                    armement: 'Armement A3 autorisé uniquement pour les agents disposant de la formation A3, sinon A2.'
+                }
+            };
+
+            const defconBtns = document.querySelectorAll('.defcon-btn');
+            const defconDisplay = document.getElementById('defcon-display');
+            const navDefconBadge = document.getElementById('nav-defcon-badge');
+
+            function renderDefcon(level) {
+                const data = defconData[level];
+                navDefconBadge.textContent = `DEFCON ${level}`;
+                navDefconBadge.className = `font-tactical text-xs font-bold ${data.badgeClass}`;
+
+                defconDisplay.innerHTML = `
+                    <div class="p-5 rounded-xl bg-ert-dark border ${data.borderClass}">
+                        <span class="text-xs font-tactical uppercase tracking-wider ${data.badgeClass} font-bold block mb-2">Conditions de Déploiement</span>
+                        <h4 class="font-tactical text-lg font-bold text-white mb-2">${data.title}</h4>
+                        <p class="text-sm text-gray-300 leading-relaxed">${data.deploiement}</p>
+                    </div>
+                    <div class="p-5 rounded-xl bg-ert-dark border border-ert-border">
+                        <span class="text-xs font-tactical uppercase tracking-wider text-ert-accent font-bold block mb-2">Composition de Patrouille</span>
+                        <p class="text-sm text-gray-200 leading-relaxed mt-2">${data.patrouille}</p>
+                    </div>
+                    <div class="p-5 rounded-xl bg-ert-dark border border-ert-border">
+                        <span class="text-xs font-tactical uppercase tracking-wider text-ert-highlight font-bold block mb-2">Règles d'Armement</span>
+                        <p class="text-sm text-gray-200 leading-relaxed mt-2">${data.armement}</p>
+                    </div>
+                `;
+            }
+
+            defconBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const level = btn.getAttribute('data-defcon');
+                    defconBtns.forEach(b => {
+                        b.className = 'defcon-btn px-4 py-2.5 rounded-xl font-tactical font-bold text-sm border border-ert-border bg-ert-dark text-gray-400 hover:text-white transition';
+                    });
+                    const colorMap = {
+                        '5': 'bg-emerald-500/20 border-emerald-500 text-emerald-300',
+                        '4': 'bg-sky-500/20 border-sky-500 text-sky-300',
+                        '3': 'bg-amber-500/20 border-amber-500 text-amber-300',
+                        '2': 'bg-red-500/20 border-red-500 text-red-300'
+                    };
+                    btn.className = `defcon-btn px-4 py-2.5 rounded-xl font-tactical font-bold text-sm border transition ${colorMap[level]}`;
+                    renderDefcon(level);
+                });
+            });
+
+            renderDefcon('5');
+
+            // Canvas Radar Tactique
+            const canvas = document.getElementById('tacticalCanvas');
+            const ctx = canvas.getContext('2d');
+            const radarLabel = document.getElementById('radar-label');
+            let currentFormation = 'simple';
+
+            const formationsCoords = {
+                simple: {
+                    label: 'COLONNE SIMPLE',
+                    agents: [
+                        { x: 0.5, y: 0.22, role: 'LEAD', angle: -Math.PI / 2 },
+                        { x: 0.5, y: 0.40, role: 'D-2', angle: -Math.PI / 2 - 0.5 },
+                        { x: 0.5, y: 0.58, role: 'D-3', angle: -Math.PI / 2 + 0.5 },
+                        { x: 0.5, y: 0.76, role: 'ARR', angle: Math.PI / 2 }
+                    ]
+                },
+                double: {
+                    label: 'COLONNE DOUBLE',
+                    agents: [
+                        { x: 0.36, y: 0.28, role: 'LEAD', angle: -Math.PI / 2 - 0.2 },
+                        { x: 0.64, y: 0.28, role: 'D-2', angle: -Math.PI / 2 + 0.2 },
+                        { x: 0.36, y: 0.55, role: 'D-3', angle: -Math.PI / 2 - 0.4 },
+                        { x: 0.64, y: 0.55, role: 'D-4', angle: -Math.PI / 2 + 0.4 }
+                    ]
+                },
+                ligne: {
+                    label: 'LIGNE (BOND)',
+                    agents: [
+                        { x: 0.20, y: 0.48, role: 'D-3', angle: -Math.PI / 2 },
+                        { x: 0.40, y: 0.48, role: 'LEAD', angle: -Math.PI / 2 },
+                        { x: 0.60, y: 0.48, role: 'D-2', angle: -Math.PI / 2 },
+                        { x: 0.80, y: 0.48, role: 'D-4', angle: -Math.PI / 2 }
+                    ]
+                },
+                triangle_base: {
+                    label: 'TRIANGLE BASE AVANT',
+                    agents: [
+                        { x: 0.25, y: 0.30, role: 'D-2', angle: -Math.PI / 2 - 0.25 },
+                        { x: 0.75, y: 0.30, role: 'D-3', angle: -Math.PI / 2 + 0.25 },
+                        { x: 0.50, y: 0.52, role: 'LEAD', angle: -Math.PI / 2 },
+                        { x: 0.50, y: 0.75, role: 'ARR', angle: Math.PI / 2 }
+                    ]
+                },
+                triangle_pointe: {
+                    label: 'TRIANGLE POINTE AVANT',
+                    agents: [
+                        { x: 0.50, y: 0.24, role: 'PTE', angle: -Math.PI / 2 },
+                        { x: 0.28, y: 0.52, role: 'LEAD', angle: -Math.PI / 2 - 0.35 },
+                        { x: 0.72, y: 0.52, role: 'D-2', angle: -Math.PI / 2 + 0.35 },
+                        { x: 0.50, y: 0.76, role: 'ARR', angle: Math.PI / 2 }
+                    ]
+                }
+            };
+
+            function drawTacticalRadar() {
+                const styles = getComputedStyle(document.documentElement);
+                const radarCone = styles.getPropertyValue('--radar-cone').trim();
+                const radarDot = styles.getPropertyValue('--radar-dot').trim();
+                const radarLead = styles.getPropertyValue('--radar-lead').trim();
+                const accentColor = styles.getPropertyValue('--accent-color').trim();
+
+                const dpr = window.devicePixelRatio || 1;
+                const rect = canvas.getBoundingClientRect();
+                canvas.width = rect.width * dpr;
+                canvas.height = rect.height * dpr;
+                ctx.scale(dpr, dpr);
+
+                const w = rect.width;
+                const h = rect.height;
+
+                ctx.clearRect(0, 0, w, h);
+
+                // Grille radar
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+                ctx.lineWidth = 1;
+                const step = w / 8;
+                for (let i = 1; i < 8; i++) {
+                    ctx.beginPath();
+                    ctx.moveTo(i * step, 0);
+                    ctx.lineTo(i * step, h);
+                    ctx.stroke();
+
+                    ctx.beginPath();
+                    ctx.moveTo(0, i * step);
+                    ctx.lineTo(w, i * step);
+                    ctx.stroke();
+                }
+
+                // Cercles concentriques
+                ctx.beginPath();
+                ctx.arc(w / 2, h / 2, w * 0.35, 0, Math.PI * 2);
+                ctx.stroke();
+
+                // Flèche direction progression
+                ctx.fillStyle = accentColor;
+                ctx.font = 'bold 10px Chakra Petch, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('▲ DIRECTION PROGRESSION', w / 2, 18);
+
+                const formation = formationsCoords[currentFormation];
+                radarLabel.textContent = formation.label;
+
+                // Lignes de cohésion
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.25)';
+                ctx.setLineDash([4, 4]);
+                ctx.beginPath();
+                formation.agents.forEach((ag, idx) => {
+                    const px = ag.x * w;
+                    const py = ag.y * h;
+                    if (idx === 0) ctx.moveTo(px, py);
+                    else ctx.lineTo(px, py);
+                });
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Dessin des agents & cônes de tir
+                formation.agents.forEach(ag => {
+                    const px = ag.x * w;
+                    const py = ag.y * h;
+
+                    // Cône secteur de feu
+                    ctx.fillStyle = radarCone;
+                    ctx.beginPath();
+                    ctx.moveTo(px, py);
+                    ctx.arc(px, py, 44, ag.angle - 0.35, ag.angle + 0.35);
+                    ctx.closePath();
+                    ctx.fill();
+
+                    // Point agent
+                    ctx.fillStyle = ag.role === 'LEAD' ? radarLead : radarDot;
+                    ctx.strokeStyle = '#ffffff';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.arc(px, py, 13, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.stroke();
+
+                    // Label agent
+                    ctx.fillStyle = '#070b14';
+                    ctx.font = 'bold 8px Inter, sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText(ag.role, px, py);
+                });
+            }
+
+            // Boutons formations
+            const formationBtns = document.querySelectorAll('.formation-btn');
+            formationBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    formationBtns.forEach(b => {
+                        b.classList.remove('border-l-ert-primary', 'bg-ert-primary/15');
+                        b.classList.add('border-l-transparent');
+                    });
+                    btn.classList.remove('border-l-transparent');
+                    btn.classList.add('border-l-ert-primary', 'bg-ert-primary/15');
+
+                    currentFormation = btn.getAttribute('data-formation');
+                    drawTacticalRadar();
+                });
+            });
+
+            window.addEventListener('resize', drawTacticalRadar);
+            drawTacticalRadar();
+        });
+    </script>
+</body>
+</html>
